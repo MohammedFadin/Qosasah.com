@@ -25,9 +25,9 @@
                   <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 60) : $snippet['title'];?></a></p>
                   <p class="text-right">اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <?php echo $snippet['username'];?> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></p>
                   </div>
-                  <div class="col-sm-5">
+                  <div class="col-sm-5" id="<?php echo $snippet['id'];?>">
                   <br/>
-                   <a class="btn btn-primary btn-sm pull-right">أضف للمفضلة <i class="fa fa-heart"></i></a><a href="https://twitter.com/share?text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-sm btn-primary pull-right">غرّد القصاصة</a>
+                   <a class="btn btn-primary btn-sm btn-recommend pull-right">أضف للمفضلة <i class="fa fa-heart"></i></a><a href="https://twitter.com/share?text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-sm btn-primary pull-right">غرّد القصاصة</a>
                   </div>
                   <hr class="invisible">
                 </div>
@@ -159,8 +159,8 @@
 <script src="<?php echo js_path();?>src-noconflict/mode-php.js"></script>    
 <script type="text/javascript">
 
-function showSnippet (snippet) {
-
+function showSnippet (snippet) 
+{
   $(snippet).popover({title: 'قصاصة',
   html:true,
   content:'<div id="editor"></div>',
@@ -179,13 +179,57 @@ function showSnippet (snippet) {
     inline : true,
     pure : false
   });
-
 }
 
-function hideSnippet (snippet) {
+function hideSnippet (snippet) 
+{
   $(snippet).popover('destroy');
 }
 
+
+$(document).ready(function()
+{
+  $('.btn-recommend').click(function(event)
+  {
+    event.preventDefault();
+    $btn = $(this);
+    if ( $btn.hasClass('btn-primary') ) // didnt vote yet
+    {
+       $.ajax
+       ({
+        url: "script.php",
+        type: "GET",
+        data: { id : $btn.parent().attr('id') },
+        success: function(data)
+        {
+          alert("good");
+        },
+        error: function(data)
+        {
+          alert("fail" + data);
+        }
+      });
+    }
+    else
+    {
+       $.ajax
+       ({
+        url: "script.php",
+        type: "GET",
+        data: { id : $btn.parent().attr('id') },
+        success: function(data)
+        {
+          alert("good");
+        },
+        error: function(data)
+        {
+          alert("fail" + data);
+        }
+      });      
+    }
+
+  });  
+});
 
 
 </script>
