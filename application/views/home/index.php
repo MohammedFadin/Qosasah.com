@@ -197,9 +197,8 @@ $(document).ready(function()
     {
        $.ajax
        ({
-        url: "script.php",
+        url: "<?php echo site_url();?>/qosasah/add_bookmark/"+$btn.parent().attr('id'),
         type: "GET",
-        data: { id : $btn.parent().attr('id') },
         success: function(data)
         {
           alert("good");
@@ -214,7 +213,7 @@ $(document).ready(function()
     {
        $.ajax
        ({
-        url: "script.php",
+        url: "<?php echo site_url();?>/qosasah/remove_bookmark/"+$btn.parent().attr('id'),
         type: "GET",
         data: { id : $btn.parent().attr('id') },
         success: function(data)
