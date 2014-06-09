@@ -19,12 +19,12 @@ class qosasah extends Front_Controller
 		parent::__construct();
 
 		$this->load->library('form_validation');
+		$this->load->model('users/user_model');
+		$this->load->library('users/auth');		
 		$this->load->model('qosasah_model', null, true);
 		$this->lang->load('qosasah');
 
-		$this->load->model('users/user_model');
-
-		$this->load->library('users/auth');
+		if ( $this->auth->is_logged_in() === TRUE) $this->set_current_user();
 
 		Assets::add_module_js('qosasah', 'qosasah.js');
 	}
@@ -57,8 +57,6 @@ class qosasah extends Front_Controller
 		{
 			redirect('login');
 		}
-
-		$this->set_current_user();
 		
 		// Lets check if there is a creation
 		if ( isset( $_POST['snippet_create'] ) )
@@ -113,8 +111,6 @@ class qosasah extends Front_Controller
 			redirect('login');
 		}
 
-		$this->set_current_user();
-
 		Template::set_view('my_snippets');
 		Template::render('');	
 	}
@@ -125,8 +121,6 @@ class qosasah extends Front_Controller
 		{
 			redirect('login');
 		}
-
-		$this->set_current_user();
 
 		Template::set_view('my_fav');
 		Template::render();
@@ -147,12 +141,24 @@ class qosasah extends Front_Controller
 			redirect('');
 		}
 
-		$this->set_current_user();
-
 		Template::set_view('snippet_view');
 		Template::set('page_title', $param['title']);
 		Template::set('snippet',$param);
 		Template::render('');
+	}
+
+	public function bookmark($id)
+	{
+		// if (!isset($id) OR !$this->auth->is_logged_in() ) echo "error"; exit;
+
+		if ( $this->qosasah_model->bookmark($id, $this->current_user->id) )
+		{
+			echo "bookmarked";
+		}
+		else
+		{
+			echo "unbookmarked";
+		}
 	}
 
 }

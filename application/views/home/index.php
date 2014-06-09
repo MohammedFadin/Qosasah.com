@@ -189,45 +189,51 @@ function hideSnippet (snippet)
 
 $(document).ready(function()
 {
+
+
+
+
+
   $('.btn-recommend').click(function(event)
   {
     event.preventDefault();
-    $btn = $(this);
-    if ( $btn.hasClass('btn-primary') ) // didnt vote yet
-    {
+    $bookmark_button = $(this);
+
        $.ajax
        ({
-        url: "<?php echo site_url();?>/qosasah/add_bookmark/"+$btn.parent().attr('id'),
+        url: "<?php echo site_url();?>/qosasah/bookmark/"+$bookmark_button.parent().attr('id'),
         type: "GET",
         success: function(data)
         {
-          alert("good");
+
+          switch ( data )
+          {
+            case "bookmarked":
+              $bookmark_button.removeClass('btn-primary');
+              $bookmark_button.addClass('btn-success');
+              break;
+            case "unbookmarked":
+              $bookmark_button.removeClass('btn-success');
+              $bookmark_button.addClass('btn-primary');
+            break;
+          }
+
         },
         error: function(data)
         {
-          alert("fail" + data);
+          $bookmark_button.removeClass('btn-primary');
+          $bookmark_button.removeClass('btn-success');
+          $bookmark_button.addClass('btn-danger');
         }
       });
-    }
-    else
-    {
-       $.ajax
-       ({
-        url: "<?php echo site_url();?>/qosasah/remove_bookmark/"+$btn.parent().attr('id'),
-        type: "GET",
-        data: { id : $btn.parent().attr('id') },
-        success: function(data)
-        {
-          alert("good");
-        },
-        error: function(data)
-        {
-          alert("fail" + data);
-        }
-      });      
-    }
+  }); 
 
-  });  
+
+
+
+
+
+
 });
 
 

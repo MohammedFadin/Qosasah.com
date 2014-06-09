@@ -67,6 +67,35 @@ class Qosasah_model extends BF_Model {
 	}
 
 	/**
+	 * [bookmark description]
+	 * @param [type] $id      [description]
+	 * @param [type] $user_id [description]
+	 */
+	public function bookmark($id, $user_id)
+	{
+		$data = array(
+			'user_id' => $user_id,
+			'snippet_id' => $id
+			);
+
+		$this->db->where($data);
+		$is_bookmarked = $this->db->get('bf_qosasah_recommendations')->num_rows();
+
+		if ( !$is_bookmarked )
+		{
+			$this->db->insert('bf_qosasah_recommendations', $data);
+			$query_status = TRUE;
+		}
+		else
+		{
+			$this->db->delete('bf_qosasah_recommendations', $data);
+			$query_status = FALSE;
+		}
+
+		return $query_status;
+	}
+
+	/**
 	 * [get_categories description]
 	 * @return [type] [description]
 	 */
