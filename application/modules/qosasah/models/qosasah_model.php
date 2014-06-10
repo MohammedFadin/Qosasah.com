@@ -67,7 +67,8 @@ class Qosasah_model extends BF_Model {
 	}
 
 	/**
-	 * [bookmark description]
+	 * This is a bit of haching, instead of having two methods
+	 * I merged it into one
 	 * @param [type] $id      [description]
 	 * @param [type] $user_id [description]
 	 */
@@ -78,17 +79,20 @@ class Qosasah_model extends BF_Model {
 			'snippet_id' => $id
 			);
 
+		// Double check if snippet id is not a number
+		if (!is_numeric($id)) return FALSE;
+
 		$this->db->where($data);
-		$is_bookmarked = $this->db->get('bf_qosasah_recommendations')->num_rows();
+		$is_bookmarked = $this->db->get('bf_qosasah_bookmarks')->num_rows();
 
 		if ( !$is_bookmarked )
 		{
-			$this->db->insert('bf_qosasah_recommendations', $data);
+			$this->db->insert('bf_qosasah_bookmarks', $data);
 			$query_status = TRUE;
 		}
 		else
 		{
-			$this->db->delete('bf_qosasah_recommendations', $data);
+			$this->db->delete('bf_qosasah_bookmarks', $data);
 			$query_status = FALSE;
 		}
 
@@ -125,7 +129,7 @@ class Qosasah_model extends BF_Model {
 	 * [get_latest description]
 	 * @return [type] [description]
 	 */
-	public function get_latest()
+	public function get_latest($limit, $start)
 	{
 		$this->db->select('bf_qosasah_snippets.*');
 		$this->db->select('bf_users.username, bf_users.id AS userid');
@@ -133,7 +137,7 @@ class Qosasah_model extends BF_Model {
 		$this->db->from('bf_qosasah_snippets');
 		$this->db->join('bf_users', 'bf_users.id = bf_qosasah_snippets.created_by');
 		$this->db->join('bf_qosasah_categories', 'bf_qosasah_categories.id = bf_qosasah_snippets.category');
-		$this->db->limit(10);
+		$this->db->limit($limit, $start);
 		$this->db->order_by('id', 'desc');
 		return $this->db->get()->result_array();
 	}
@@ -147,5 +151,40 @@ class Qosasah_model extends BF_Model {
 		$result['total_users'] = $this->db->count_all('bf_users');
 		$result['total_snippets'] = $this->db->count_all('bf_qosasah_snippets');
 		return $result;
+	}
+
+	/**
+	 * [get_bookmarks description]
+	 * @param  [type] $offset  [description]
+	 * @param  [type] $user_id [description]
+	 * @return [type]          [description]
+	 */
+	public function get_bookmarks($offset= NULL, $user_id)
+	{
+		if ( $offset )
+		{
+			$this->db->where('user_id', $user_id);
+			$this->db->where('snippet_id', '19');
+		}
+		else
+		{
+			$this->db->where('user_id', $user_id);
+			$this->db->select('snippet_id');			
+		}
+		$this->db->limit(10);
+		$this->db->order_by('snippet_id', 'desc');
+		
+		// Have the snippet ids without keys
+		$bookmarked_ids = array();
+
+		foreach ($this->db->get('bf_qosasah_bookmarks')->result() as $bookmark) {
+			$bookmarked_ids[] = $bookmark->snippet_id;	
+		}	
+		return $bookmarked_ids;
+	}
+
+	public function snippets_count()
+	{
+		return $this->db->count_all('bf_qosasah_snippets');
 	}
 }

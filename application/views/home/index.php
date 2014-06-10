@@ -18,16 +18,21 @@
               <h4><b>آخر القُصاصات البرمجية</b></h4>
             </div>
             <div class="panel-body">
-            <?php foreach ($snippets as $snippet):?>
-              <div class="row">
+            <?php foreach ($snippets['total_snippets'] as $snippet):?>
+              <div class="row" id="<?php echo $snippet['id'];?>">
                 <div class="snippet-row col-md-12" dir="rtl">
                   <div class="col-sm-7">
-                  <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 60) : $snippet['title'];?></a></p>
-                  <p class="text-right">اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <?php echo $snippet['username'];?> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></p>
+                  <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this, <?php echo $snippet['id'];?>);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 60) : $snippet['title'];?></a></p>
+                  <p class="text-right"><small>اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <?php echo $snippet['username'];?> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></small></p>
                   </div>
                   <div class="col-sm-5" id="<?php echo $snippet['id'];?>">
                   <br/>
-                   <a class="btn btn-primary btn-sm btn-recommend pull-right">أضف للمفضلة <i class="fa fa-heart"></i></a><a href="https://twitter.com/share?text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-sm btn-primary pull-right">غرّد القصاصة</a>
+                  <?php if ( isset($snippets['is_bookmarked']) AND in_array($snippet['id'], $snippets['is_bookmarked'])):?>
+                    <a class="btn btn-success btn-sm btn-recommend pull-right">أضف للمفضلة <i class="fa fa-heart"></i></a>
+                  <?php else:?>
+                    <a class="btn btn-primary btn-sm btn-recommend pull-right">أضف للمفضلة <i class="fa fa-heart"></i></a>
+                  <?php endif;?>
+                    <a href="https://twitter.com/share?url=<?php echo site_url() . '/qosasah/view/' . $snippet['id'];?>&text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-sm btn-primary pull-right">غرّد القصاصة</a>
                   </div>
                   <hr class="invisible">
                 </div>
@@ -130,26 +135,7 @@
       </div>
       <div class="row text-center">
       <div class="col-md-12">
-        <ul class="pagination pagination-right">
-          <li>
-            <a href="#">أمام</a>
-          </li>
-          <li class="active">
-            <a>١</a>
-          </li>
-          <li>
-            <a href="#">٢</a>
-          </li>
-          <li>
-            <a>٣</a>
-          </li>
-          <li>
-            <a href="#">٤</a>
-          </li>
-          <li>
-            <a href="#">سابق</a>
-          </li>
-        </ul>
+        <?php echo $this->pagination->create_links();?>
       </div>
     </div>
     </div>
@@ -159,11 +145,12 @@
 <script src="<?php echo js_path();?>src-noconflict/mode-php.js"></script>    
 <script type="text/javascript">
 
-function showSnippet (snippet) 
+function showSnippet (element, snippet_id) 
 {
-  $(snippet).popover({title: 'قصاصة',
+
+  $(element).popover({title: 'قصاصة',
   html:true,
-  content:'<div id="editor"></div>',
+  content:'<div class="text-left" id="editor"></div>',
   placement: 'bottom',
   template: '<div class="snipper"><div class="popover-content"></div></div>'}).popover('show');
 
@@ -177,8 +164,26 @@ function showSnippet (snippet)
   editor.session.setMode({
     path : "ace/mode/php",
     inline : true,
-    pure : false
+    pure : true
   });
+
+  $.ajax
+  ({
+    url: "<?php echo site_url();?>/qosasah/get_snippet_ajaxed/"+snippet_id,
+    type: "GET",
+    success: function(data)
+    {
+        editor.getSession().setValue(data);
+    },
+    error: function(data)
+    {
+      editor.getSession().setValue('حدثت مشكلة');
+    }
+  });
+
+
+
+
 }
 
 function hideSnippet (snippet) 

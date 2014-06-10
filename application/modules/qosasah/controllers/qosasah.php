@@ -161,4 +161,11 @@ class qosasah extends Front_Controller
 		}
 	}
 
+	public function get_snippet_ajaxed($id=NULL)
+	{
+		if ( !$id ) echo 'error';
+
+		if ( $snippet_code = $this->qosasah_model->get_by_id($id) ) echo $snippet_code['snippet'];
+	}
+
 }

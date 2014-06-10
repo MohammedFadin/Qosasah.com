@@ -40,6 +40,10 @@ class Home extends CI_Controller
 		$this->lang->load('application');
 		$this->load->library('events');
 		$this->load->helper('form');
+		$this->load->library("pagination");
+
+		$this->load->model('qosasah/qosasah_model');
+
 	}
 
 	//--------------------------------------------------------------------
@@ -51,23 +55,64 @@ class Home extends CI_Controller
 	 */
 	public function index()
 	{
-		$this->load->model('qosasah/qosasah_model');
 		$this->load->library('installer_lib');
+		$this->load->library('users/auth');
+		$this->set_current_user();
 
 		if (!$this->installer_lib->is_installed())
 		{
 			redirect( site_url('install') );
 		}
 
-		$param = $this->qosasah_model->get_latest();
-		$param_total_status = $this->snippets_status();
+       	$paging_config = array();
+        $paging_config["base_url"] = site_url() . '/p/';
+        $paging_config["total_rows"] = $this->qosasah_model->snippets_count();
+        $paging_config["per_page"] = 10;
+        $paging_config["uri_segment"] = 2;
+        $paging_config['use_page_numbers']  = FALSE;
 
-		// Lets get the website status
-		$this->load->library('users/auth');
-		$this->set_current_user();
+		/* This Application Must Be Used With BootStrap 3 *  */
+		$paging_config['full_tag_open'] = "<ul class='pagination pagination-right'>";
+		$paging_config['full_tag_close'] ="</ul>";
+		$paging_config['num_tag_open'] = '<li>';
+		$paging_config['num_tag_close'] = '</li>';
+		$paging_config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+		$paging_config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+		$paging_config['next_link'] = 'أمام';
+		$paging_config['prev_link'] = 'خلف';		
+		$paging_config['next_tag_open'] = "<li>";
+		$paging_config['next_tagl_close'] = "</li>";
+		$paging_config['prev_tag_open'] = "<li>";
+		$paging_config['prev_tagl_close'] = "</li>";
+		$paging_config['first_link'] = 'الأولى';		
+		$paging_config['first_tag_open'] = "<li>";
+		$paging_config['first_tagl_close'] = "</li>";
+		$paging_config['last_link'] = 'الأخيرة';		
+		$paging_config['last_tag_open'] = "<li>";
+		$paging_config['last_tagl_close'] = "</li>";
+
+
+
+        $this->pagination->initialize($paging_config);
+
+        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+		$param['total_snippets'] = $this->qosasah_model->get_latest($paging_config["per_page"], $page);
+		$param_total_status = $this->qosasah_model->get_all_status(); 
+		
+		// If user is logged get all the bookmarks
+		if ( class_exists('Auth') )
+		{
+			if ($this->auth->is_logged_in())
+			{
+				$param['is_bookmarked'] = $this->qosasah_model->get_bookmarks(NULL, $this->current_user->id);
+			}
+		}
+			
 
 		Template::set('snippets', $param);
 		Template::set('status', $param_total_status);
+		// Template::set('bookmarks', $param_bookmarks);
 		Template::render();
 	}//end index()
 
