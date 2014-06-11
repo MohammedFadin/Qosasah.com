@@ -2,7 +2,7 @@
       <div class="col-md-8 col-md-offset-1">
         <ul class="breadcrumb">
           <li><a href="<?php echo site_url();?>">الرئيسية</a></li>
-          <li><a href="#"><?php echo $snippet['name'];?></a></li>          
+          <li><a href="#"><?php echo $snippet['language'];?></a></li>          
           <li class="active"><?php echo $snippet['title'];?></li>
         </ul>
           <div class="panel panel-default">
@@ -31,18 +31,18 @@
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-12 text-center">
-                  <img src="<?php echo img_path();?>prog-icons/<?php echo mb_strtolower($snippet['name']);?>.png" 
+                  <img src="<?php echo img_path();?>prog-icons/<?php echo mb_strtolower($snippet['language']);?>.png" 
                   class="" width="100" height="100">
                 </div>
                 <div class="col-md-12 text-center">
 <hr>
-                  <p> اللغة: <?php echo $snippet['name'];?> </p>
+                  <p> اللغة: <?php echo $snippet['language'];?> </p>
                   <p> تاريخ الإضافة : <?php echo $snippet['created_at'];?> </p>
                   <p> المصدر : <?php echo $snippet['url'];?> </p>                  
                   <p> العضو : <?php echo $snippet['username'];?> </p>
                   <hr>
                   <p><button class="btn btn-primary"> أعجبني ♥</button></p>
-                  <p><a href="https://twitter.com/share?text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['name'];?>" target="_blank" class="btn btn-primary">غرّد القصاصة</a></p>
+                  <p><a href="https://twitter.com/share?text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-primary">غرّد القصاصة</a></p>
                 </div>
               </div>
               <div class="row">
@@ -70,7 +70,7 @@
     editor.setTheme( "ace/theme/twilight" );
     editor.getSession().setUseWrapMode(true);
     editor.session.setMode({
-      path : "ace/mode/<?php echo mb_strtolower($snippet['name']);?>",
+      path : "ace/mode/<?php echo mb_strtolower($snippet['language']);?>",
       inline : true,
       pure : true
     })

@@ -11,7 +11,7 @@
     white-space: normal;
   }
 </style>
-<div class="container" style="margin-top:40px;">
+<div class="container" style="margin-top:40px;" dir="rtl">
 <div class="col-md-8">
           <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -23,7 +23,7 @@
                 <div class="snippet-row col-md-12" dir="rtl">
                   <div class="col-sm-7">
                   <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this, <?php echo $snippet['id'];?>);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 100) : $snippet['title'];?></a></p>
-                  <p class="text-right"><small>اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <?php echo $snippet['username'];?> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></small></p>
+                  <p class="text-right"><small>اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <a href="#"><?php echo $snippet['username'];?></a> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></small></p>
                   </div>
                   <div class="col-sm-5" id="<?php echo $snippet['id'];?>">
                   <br/>
@@ -72,12 +72,12 @@
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-12">
-                  <table class="table table-condensed text-right" dir="rtl">
+                  <table class="table table-condensed text-right">
                     <tbody>
                       <?php foreach($snippets['top_snippets'] as $snippet):?>
                       <tr>
                         <td>
-                          <div class="col-md-2"><span class="label label-default"><?php echo $snippet['language'];?></div>&nbsp;<a href="<?php echo site_url().'/qosasah/view/'. $snippet['id'];?>"><?php echo $snippet['title'];?></a>
+                         <span class="label label-default"><?php echo $snippet['language'];?></span>&nbsp;<a href="<?php echo site_url().'/qosasah/view/'. $snippet['id'];?>"><?php echo $snippet['title'];?></a>
                         </td>
                       </tr>
                     <?php endforeach;?>

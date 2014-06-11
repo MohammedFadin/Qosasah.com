@@ -76,7 +76,7 @@ class qosasah extends Front_Controller
 						'category'		=> $this->input->post('snippet_lang'),
 						'url'	=> $this->input->post('snippet_url'),
 						'created_by' => $this->current_user->id,
-						'type' => $this->input->post('snippet_type'),
+						'private' => $this->input->post('snippet_type'),
 					);
 
 				// Time to add the data
@@ -125,7 +125,9 @@ class qosasah extends Front_Controller
 			redirect('login');
 		}
 
+		$param = $this->qosasah_model->get_my_bookmarked_snippets($this->current_user->id);
 		Template::set_view('my_fav');
+		Template::set('snippets', $param);
 		Template::render();
 	}
 
@@ -145,7 +147,7 @@ class qosasah extends Front_Controller
 		}
 
 		Template::set_view('snippet_view');
-		Template::set('page_title', $param['title']);
+		Template::set('page_title', '('.$param["language"].')'.$param['title']);
 		Template::set('snippet',$param);
 		Template::render('');
 	}

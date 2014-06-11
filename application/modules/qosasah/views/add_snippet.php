@@ -32,7 +32,7 @@
                   <div class="form-group">
                     <label for="snippet_desc" class="col-sm-2">شرح مفصل</label>
                     <div class="col-sm-10">
-                      <input type="text" name="snippet_desc" value="<?php echo set_value('snippet_desc');?>" class="form-control text-right">
+                      <textarea name="snippet_desc" row="3" value="<?php echo set_value('snippet_desc');?>" class="form-control text-right"></textarea>
                     </div>
                   </div>
                   <div class="form-group">
@@ -47,9 +47,9 @@
                   </div>
                   <div class="form-group">
                     <label for="editor" class="col-sm-2">(Snippet)القصاصة البرمجية</label>
-                    <input type="hidden" name="snippet_data" style="display: none;">
+                    <input type="hidden" name="snippet_data" style="display: none;" value="<?php echo set_value('snippet_data');?>">
                     <div class="col-sm-10 text-left">
-                    <div id="editor" style="height: 500px;">//your code here...</div>
+                    <div id="editor" style="height: 500px;"><?php echo set_value('snippet_data');?></div>
                     </div>
                   </div>
                   <div class="form-group">
