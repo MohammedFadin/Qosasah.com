@@ -111,7 +111,10 @@ class qosasah extends Front_Controller
 			redirect('login');
 		}
 
+		$param = $this->qosasah_model->get_my_snippets($this->current_user->id);
+
 		Template::set_view('my_snippets');
+		Template::set('snippets', $param);
 		Template::render('');	
 	}
 

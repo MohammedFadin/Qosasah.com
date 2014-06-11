@@ -200,7 +200,7 @@ class Qosasah_model extends BF_Model {
 		$query = $this->db->query('
 			SELECT * FROM 
 			(
-				(SELECT * FROM bf_qosasah_snippets ) p1
+				(SELECT * FROM bf_qosasah_snippets WHERE private = 0) p1
 			 INNER JOIN
 			 	(SELECT snippet_id,count(*) AS total_bookmarked FROM bf_qosasah_bookmarks GROUP BY snippet_id
                 ) p2
@@ -209,7 +209,7 @@ class Qosasah_model extends BF_Model {
             INNER JOIN
             (SELECT id AS catid, name AS language FROM bf_qosasah_categories) p3
             ON p1.category = p3.catid
-			order by p2.total_bookmarked desc
+			ORDER BY p2.total_bookmarked desc
 			LIMIT 10
 			');
 		return $query->result_array();
@@ -221,11 +221,27 @@ class Qosasah_model extends BF_Model {
 			SELECT * FROM
 			(SELECT * FROM bf_users) users_table
 			inner join 
-			(SELECT count(*) AS total_posted_snippets, created_by FROM bf_qosasah_snippets group by created_by ) snippets_table
+			(SELECT count(*) AS total_posted_snippets, created_by FROM bf_qosasah_snippets
+			 WHERE private = 0 group by created_by ) snippets_table
 			WHERE users_table.id = snippets_table.created_by
 			LIMIT 10
 			');
 		return $query->result_array();
+	}
+
+	/**
+	 * [get_my_snippets description]
+	 * @param  [type] $user_id [description]
+	 * @return [type]          [description]
+	 */
+	public function get_my_snippets($user_id)
+	{
+		$this->db->where('created_by', $user_id);
+		$this->db->select('bf_qosasah_categories.id as catid', FALSE);		
+		$this->db->from('bf_qosasah_snippets');
+		$this->db->join('bf_qosasah_categories', 'bf_qosasah_categories.id = bf_qosasah_snippets.category');
+		return $this->db->get()->result_array();
+
 	}
 	/**
 	 * [snippets_count description]

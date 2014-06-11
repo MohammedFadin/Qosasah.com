@@ -15,7 +15,7 @@
                 created_by		INT(11) UNSIGNED NOT NULL,
                 created_at	DATETIME,
                 category	INT(11) UNSIGNED NOT NULL,
-                type 		INT(11) UNSIGNED NOT NULL,
+                private 		INT(11) UNSIGNED NOT NULL,
                 url 		VARCHAR(200),
                 PRIMARY KEY(id)
             );";
