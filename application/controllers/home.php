@@ -92,12 +92,13 @@ class Home extends CI_Controller
 		$paging_config['last_tagl_close'] = "</li>";
 
 
-
         $this->pagination->initialize($paging_config);
-
         $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 
+        // Get all the required data
 		$param['total_snippets'] = $this->qosasah_model->get_latest($paging_config["per_page"], $page);
+		$param['top_snippets'] = $this->qosasah_model->get_top_snippets();
+		$param['top_users'] = $this->qosasah_model->get_top_users();
 		$param_total_status = $this->qosasah_model->get_all_status(); 
 		
 		// If user is logged get all the bookmarks

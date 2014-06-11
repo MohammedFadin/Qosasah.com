@@ -61,8 +61,8 @@
                   <div class="form-group">
                     <label class="col-sm-2">حالة القصاصة</label>                  
                     <div class="col-sm-10">
-                        <input type="radio" name="snippet_type" value="public" checked>عام</label>
-                        <input type="radio" name="snippet_type" value="private">خاص</label>
+                        <input type="radio" name="snippet_type" value="0" checked>عام</label>
+                        <input type="radio" name="snippet_type" value="1">خاص</label>
                     </div>
                   </div>
                   <div class="col-sm-2">

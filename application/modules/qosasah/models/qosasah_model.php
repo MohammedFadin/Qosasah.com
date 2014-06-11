@@ -183,6 +183,54 @@ class Qosasah_model extends BF_Model {
 		return $bookmarked_ids;
 	}
 
+	/**
+	 * [get_top_snippets description]
+	 * @return [type] [description]
+	 */
+	public function get_top_snippets()
+	{
+		// $this->db->select('*');
+		// $this->db->from('bf_qosasah_snippets');
+		// $this->db->where("`id` IN (SELECT count(*) AS top_bookmarks, 'snippet_id' FROM `bf_qosasah_bookmarks`  group by 'snippet_id' order by 'top_bookmarks' DESC LIMIT 5)", NULL, FALSE);
+		// // $this->db->select('count(*) AS total_bookmarked, snippet_id');
+		// // $this->db->from('bf_qosasah_bookmarks');
+		// // $this->db->group_by('snippet_id');
+		// // $this->db->order_by('total_bookmarked', 'DESC');
+		// // $this->db->limit(5);
+		$query = $this->db->query('
+			SELECT * FROM 
+			(
+				(SELECT * FROM bf_qosasah_snippets ) p1
+			 INNER JOIN
+			 	(SELECT snippet_id,count(*) AS total_bookmarked FROM bf_qosasah_bookmarks GROUP BY snippet_id
+                ) p2
+			 ON p1.id = p2.snippet_id
+			)
+            INNER JOIN
+            (SELECT id AS catid, name AS language FROM bf_qosasah_categories) p3
+            ON p1.category = p3.catid
+			order by p2.total_bookmarked desc
+			LIMIT 10
+			');
+		return $query->result_array();
+	}
+
+	public function get_top_users()
+	{
+		$query = $this->db->query('
+			SELECT * FROM
+			(SELECT * FROM bf_users) users_table
+			inner join 
+			(SELECT count(*) AS total_posted_snippets, created_by FROM bf_qosasah_snippets group by created_by ) snippets_table
+			WHERE users_table.id = snippets_table.created_by
+			LIMIT 10
+			');
+		return $query->result_array();
+	}
+	/**
+	 * [snippets_count description]
+	 * @return [type] [description]
+	 */
 	public function snippets_count()
 	{
 		return $this->db->count_all('bf_qosasah_snippets');

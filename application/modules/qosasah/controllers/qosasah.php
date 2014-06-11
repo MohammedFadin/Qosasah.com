@@ -65,7 +65,7 @@ class qosasah extends Front_Controller
 			$this->form_validation->set_rules('snippet_desc', 'snippet description', 'trim|required|min_length[5]|max_length[400]|xss_clean');
 			$this->form_validation->set_rules('snippet_lang', 'snippet langauge', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('snippet_data', 'snippet', 'max_length[5000]');
-			$this->form_validation->set_rules('snippet_url', 'snippet url', 'trim|required|min_length[5]|max_length[200]|xss_clean');
+			$this->form_validation->set_rules('snippet_url', 'snippet url', 'trim|min_length[5]|max_length[200]|xss_clean');
 
 			if ( $this->form_validation->run() !== FALSE )
 			{
@@ -76,7 +76,7 @@ class qosasah extends Front_Controller
 						'category'		=> $this->input->post('snippet_lang'),
 						'url'	=> $this->input->post('snippet_url'),
 						'created_by' => $this->current_user->id,
-						'type' => 0
+						'type' => $this->input->post('snippet_type'),
 					);
 
 				// Time to add the data

@@ -22,7 +22,7 @@
               <div class="row" id="<?php echo $snippet['id'];?>">
                 <div class="snippet-row col-md-12" dir="rtl">
                   <div class="col-sm-7">
-                  <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this, <?php echo $snippet['id'];?>);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 60) : $snippet['title'];?></a></p>
+                  <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this, <?php echo $snippet['id'];?>);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 100) : $snippet['title'];?></a></p>
                   <p class="text-right"><small>اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <?php echo $snippet['username'];?> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></small></p>
                   </div>
                   <div class="col-sm-5" id="<?php echo $snippet['id'];?>">
@@ -73,22 +73,14 @@
               <div class="row">
                 <div class="col-md-12">
                   <table class="table table-condensed text-right" dir="rtl">
-                    <thead>
-                      <tr>
-                        <th class="text-right">قصاصة</th>
-                      </tr>
-                    </thead>
                     <tbody>
+                      <?php foreach($snippets['top_snippets'] as $snippet):?>
                       <tr>
                         <td>
-                          <a href="#"><span class="label label-default">python</span> كود لقراءة الملفات</a>
+                          <div class="col-md-2"><span class="label label-default"><?php echo $snippet['language'];?></div>&nbsp;<a href="<?php echo site_url().'/qosasah/view/'. $snippet['id'];?>"><?php echo $snippet['title'];?></a>
                         </td>
                       </tr>
-                      <tr>
-                        <td>
-                          <a href="#"><span class="label label-default">python</span> كود لقراءة الملفات</a>
-                        </td>
-                      </tr>
+                    <?php endforeach;?>
                     </tbody>
                   </table>
                 </div>
@@ -112,18 +104,14 @@
                       </tr>
                     </thead>
                     <tbody>
+                    <?php foreach ($snippets['top_users'] as $user) :?>
                       <tr>
                         <td>
-                          <a href="#">Mohammed Fadin</a>
+                          <a href="#"><?php echo $user['username'];?></a>
                         </td>
-                        <td>٤١</td>
+                        <td><?php echo $user['total_posted_snippets'];?></td>
                       </tr>
-                      <tr>
-                        <td>
-                          <a href="#">SobiaLab</a>
-                        </td>
-                        <td>٣٣</td>
-                      </tr>
+                    <?php endforeach;?>
                     </tbody>
                   </table>
                 </div>
