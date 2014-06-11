@@ -265,12 +265,9 @@ class Qosasah_model extends BF_Model {
 			(
 				SELECT id AS catid, name AS language FROM bf_qosasah_categories
 			) categories_table
-
 			ON snippets_table.category = categories_table.catid
 			JOIN 
-
 			(SELECT id AS userid, username FROM bf_users) users_table
-
 			ON users_table.userid = snippets_table.created_by
 			");
 		return $query->result_array();
@@ -282,7 +279,8 @@ class Qosasah_model extends BF_Model {
 	 * @return [type] [description]
 	 */
 	public function snippets_count()
-	{
-		return $this->db->count_all('bf_qosasah_snippets');
+	{	
+		$this->db->where('private', '0');
+		return $this->db->count_all_results('bf_qosasah_snippets');
 	}
 }

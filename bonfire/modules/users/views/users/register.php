@@ -13,11 +13,7 @@ $fieldData = array(
     <div class="alert alert-error fade in">
         <?php echo $validation_errors; ?>
     </div>
-    <?php endif; ?>      
-<!--     <div class="alert alert-info fade in">
-        <h4 class="alert-heading"><?php echo lang('bf_required_note'); ?></h4>
-        <?php if (isset($password_hints)) { echo $password_hints; } ?>
-    </div>  -->  
+    <?php endif; ?>       
     <div class="container-fluid well" style="padding-top:40px;">   
       <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -27,7 +23,7 @@ $fieldData = array(
             </div>
             <div class="panel-body">
              <?php echo form_open( site_url(REGISTER_URL), array('autocomplete' => 'off')); ?>
-                <fieldset class="text-right">
+                <fieldset class="text-right" dir="rtl">
                   <div class="form-group">
                     <label for="email">بريدك الإلكتروني</label>
                     <input class="form-control text-right" id="email" placeholder name="email" type="text">
@@ -41,7 +37,7 @@ $fieldData = array(
                     <input class="form-control text-right" placeholder name="username" type="username" value>
                   </div>
                   <div class="form-group">
-                    <small><i><?php if (isset($password_hints)) { echo $password_hints; } ?></i></small> <label for="email">كلمة المرور</label>
+                    <label for="email">كلمة المرور</label>&nbsp;<small class="pull-right"><i><?php if (isset($password_hints)) { echo $password_hints; } ?></i></small>
                     <input class="form-control text-right required" placeholder name="password" type="password" value>
                   </div>
                   <div class="form-group">
@@ -50,7 +46,7 @@ $fieldData = array(
                   </div>
                   <div class="form-group">
                     <select name="language" id="language" class="form-control">
-                      <option value="english">عزبي</option>
+                      <option value="english">عربي</option>
                     </select>
                   </div>
                   
@@ -301,7 +297,7 @@ $fieldData = array(
                   <button class="btn btn-success" type="submit" name="register" id="login">تسجيل</button>
                 </fieldset>
                 <div class="checkbox">
-                  <a hre="<?php echo LOGIN_URL ;?>"><label>لديك حساب مسبق?</label></a>
+                  <a href="<?php echo LOGIN_URL ;?>"><label>لديك حساب مسبق?</label></a>
                 </div>
               <?php echo form_close(); ?>
             </div>

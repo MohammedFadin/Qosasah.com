@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "home";
+$route['default_controller'] = "qosasah";
 $route['p'] = 'home/index'; //paging
 $route['p/:num'] = 'home/index'; //paging
 $route['404_override'] = '';
