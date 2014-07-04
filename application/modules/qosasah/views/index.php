@@ -22,7 +22,7 @@
               <div class="row" id="<?php echo $snippet['id'];?>">
                 <div class="snippet-row col-md-12" dir="rtl">
                   <div class="col-sm-7">
-                  <p class="text-right"><a href="<?php echo site_url('qosasah/view/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this, <?php echo $snippet['id'];?>);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 100) : $snippet['title'];?></a></p>
+                  <p class="text-right"><a href="<?php echo site_url('q/') . '/' . $snippet['id'];?>" onmouseover="showSnippet(this, <?php echo $snippet['id'];?>);" onmouseout="hideSnippet(this);"><?php echo ( strlen($snippet['title']) > 60 ) ? substr($snippet['title'], 0, 100) : $snippet['title'];?></a></p>
                   <p class="text-right"><small>اللغة: <span class="label label-success"><?php echo $snippet['language'];?></span> | المستخدم: <a href="#"><?php echo $snippet['username'];?></a> | تاريخ الإضافة: <?php echo $snippet['created_at'];?></small></p>
                   </div>
                   <div class="col-sm-5" id="<?php echo $snippet['id'];?>">
@@ -32,7 +32,7 @@
                   <?php else:?>
                     <a class="btn btn-primary btn-sm btn-recommend pull-right">أضف للمفضلة <i class="fa fa-heart"></i></a>
                   <?php endif;?>
-                    <a href="https://twitter.com/share?url=<?php echo site_url() . '/qosasah/view/' . $snippet['id'];?>&text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-sm btn-primary pull-right">غرّد القصاصة</a>
+                    <a href="https://twitter.com/share?url=<?php echo site_url() . '/q/' . $snippet['id'];?>&text=<?php echo $snippet['title'];?>&hashtags=برمجة,<?php echo $snippet['language'];?>" target="_blank" class="btn btn-sm btn-primary pull-right">غرّد القصاصة</a>
                   </div>
                   <hr class="invisible">
                 </div>
@@ -77,7 +77,7 @@
                       <?php foreach($snippets['top_snippets'] as $snippet):?>
                       <tr>
                         <td>
-                         <span class="label label-default"><?php echo $snippet['language'];?></span>&nbsp;<a href="<?php echo site_url().'/qosasah/view/'. $snippet['id'];?>"><?php echo $snippet['title'];?></a>
+                         <span class="label label-default"><?php echo $snippet['language'];?></span>&nbsp;<a href="<?php echo site_url().'/q/'. $snippet['id'];?>"><?php echo $snippet['title'];?></a>
                         </td>
                       </tr>
                     <?php endforeach;?>

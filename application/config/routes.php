@@ -70,5 +70,7 @@ $route['activate']		        = 'users/activate';
 $route['activate/(:any)']		= 'users/activate/$1';
 $route['resend_activation']		= 'users/resend_activation';
 
+$route['q/(:any)'] = 'qosasah/view/$1';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
