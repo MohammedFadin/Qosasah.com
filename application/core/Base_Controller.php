@@ -120,7 +120,7 @@ class Base_Controller extends MX_Controller
 				if ( ! $this->input->is_cli_request() AND ! $this->input->is_ajax_request())
 				{
 					$this->load->library('Console');
-					$this->output->enable_profiler(TRUE);
+					$this->output->enable_profiler(FALSE);
 				}
 
 			}
