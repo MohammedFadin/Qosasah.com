@@ -42,9 +42,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'qosasah';
-$db['default']['password'] = 'qosasah321qosasah';
-$db['default']['database'] = 'qosasah';
+$db['default']['username'] = 'qosasah_db';
+$db['default']['password'] = '00017417';
+$db['default']['database'] = 'qosasah_db';
 $db['default']['port']     = '3306';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = 'bf_';
